@@ -10,9 +10,9 @@
 | ------------- | ------------- |
 | ![background](gifs/background_ani.gif)  | ![borderBottom](gifs/border_bottom_ani.gif)  |
 
-| bottomTop | creativeHexagon |
+| borderTop | creativeHexagon |
 | ------------- | ------------- |
-| ![bottomTop](gifs/bottom_top.gif)  | ![creativeHexagon](gifs/creative_hexagon.gif)  |
+| ![bottomTop](gifs/border_top.gif)  | ![creativeHexagon](gifs/creative_hexagon.gif)  |
 
 | creative | default |
 | ------------- | ------------- |
@@ -24,7 +24,7 @@
 
 | floating | inspiredInside |
 | ------------- | ------------- |
-| ![floating](gifs/floating.gif)  | ![inspiredInside](gifs/inspired_inside_ani.gif)  |
+| ![floating](gifs/floating_ani.gif)  | ![inspiredInside](gifs/inspired_inside_ani.gif)  |
 
 | inspiredInsideHexagon | inspiredOutSide |
 | ------------- | ------------- |
