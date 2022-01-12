@@ -12,7 +12,7 @@
 
 | borderTop | creativeHexagon |
 | ------------- | ------------- |
-| ![bottomTop](gifs/border_top.gif)  | ![creativeHexagon](gifs/creative_hexagon.gif)  |
+| ![bottomTop](gifs/border_top_ani.gif)  | ![creativeHexagon](gifs/creative_hexagon.gif)  |
 
 | creative | default |
 | ------------- | ------------- |
