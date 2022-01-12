@@ -1,4 +1,4 @@
-library awesome_bottom_bar2;
+library awesome_bottom_bar;
 
 export 'tab_item.dart';
 export 'count_style.dart';
@@ -13,9 +13,3 @@ export 'src/bottom_bar_floating.dart';
 export 'src/bottom_bar_creative.dart';
 export 'src/bottom_bar_inspired_inside.dart';
 export 'src/bottom_bar_inspired_outside.dart';
-
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}

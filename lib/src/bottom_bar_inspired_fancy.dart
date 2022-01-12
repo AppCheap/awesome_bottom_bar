@@ -1,4 +1,4 @@
-import 'package:awesome_bottom_bar2/extension/shadow.dart';
+import 'package:awesome_bottom_bar/extension/shadow.dart';
 import 'package:flutter/material.dart';
 
 import '../tab_item.dart';

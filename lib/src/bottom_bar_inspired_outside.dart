@@ -1,6 +1,6 @@
-import 'package:awesome_bottom_bar2/widgets/hexagon/hexagon.dart';
-import 'package:awesome_bottom_bar2/widgets/inspired/inspired.dart';
-import 'package:awesome_bottom_bar2/widgets/inspired/transition_container.dart';
+import 'package:awesome_bottom_bar/widgets/hexagon/hexagon.dart';
+import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
+import 'package:awesome_bottom_bar/widgets/inspired/transition_container.dart';
 import 'package:flutter/material.dart';
 
 import '../chip_style.dart';

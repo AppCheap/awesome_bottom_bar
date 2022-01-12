@@ -1,5 +1,5 @@
-import 'package:awesome_bottom_bar2/awesome_bottom_bar2.dart';
-import 'package:awesome_bottom_bar2/extension/shadow.dart';
+import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
+import 'package:awesome_bottom_bar/extension/shadow.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/build_icon.dart';

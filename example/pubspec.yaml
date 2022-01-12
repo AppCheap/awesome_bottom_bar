@@ -33,7 +33,7 @@ dependencies:
 
 
   # UI library for app
-  awesome_bottom_bar2:
+  awesome_bottom_bar:
     path: ../
 
 dev_dependencies:

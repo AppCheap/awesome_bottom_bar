@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:awesome_bottom_bar2/awesome_bottom_bar2.dart';
+import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 abstract class BottomBar extends StatefulWidget {

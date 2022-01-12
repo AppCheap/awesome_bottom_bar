@@ -1,10 +1,10 @@
-import 'package:awesome_bottom_bar2/widgets/inspired/inspired.dart';
+import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:example/bottom_bar_creative.dart';
 import 'package:example/bottom_bar_default.dart';
 import 'package:example/bottom_bar_fancy.dart';
 import 'package:example/bottom_bar_salomon.dart';
 import 'package:flutter/material.dart';
-import 'package:awesome_bottom_bar2/awesome_bottom_bar2.dart';
+import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 
 import 'bottom_bar_background.dart';
 import 'bottom_bar_divider.dart';
