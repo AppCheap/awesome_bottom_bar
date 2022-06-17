@@ -83,7 +83,7 @@ class _BottomBarDefaultState extends State<BottomBarDefault> with TickerProvider
           .animate(_animationControllerList[i]));
     }
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _animationControllerList[_selectedIndex!].forward();
     });
   }

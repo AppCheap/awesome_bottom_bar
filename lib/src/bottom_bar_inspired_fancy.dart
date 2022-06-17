@@ -89,7 +89,7 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
           .animate(_animationControllerList[i]));
     }
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _animationControllerList[_selectedIndex].forward();
     });
   }
