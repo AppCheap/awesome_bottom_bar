@@ -83,7 +83,7 @@ class _BottomBarFloatingState extends State<BottomBarFloating> with TickerProvid
           .animate(_animationControllerList[i]));
     }
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _animationControllerList[_selectedIndex!].forward();
     });
   }

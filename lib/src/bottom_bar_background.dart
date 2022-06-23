@@ -83,7 +83,7 @@ class _BottomBarBackgroundState extends State<BottomBarBackground> with TickerPr
           .animate(_animationControllerList[i]));
     }
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _animationControllerList[_selectedIndex].forward();
     });
   }
