@@ -19,6 +19,23 @@ class BuildIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // Check if the icon is a Widget
+    if (item.icon is Widget) {
+      return SizedBox(
+        width: iconSize,
+        height: iconSize,
+        child: ShaderMask(
+          shaderCallback: (Rect bounds) {
+            return LinearGradient(colors: [iconColor, iconColor])
+                .createShader(bounds);
+          },
+          blendMode: BlendMode.srcIn,
+          child: item.icon as Widget,
+        ),
+      );
+    }
+
     Widget icon = Icon(
       item.icon,
       size: iconSize,

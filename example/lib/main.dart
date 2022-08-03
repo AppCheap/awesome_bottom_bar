@@ -6,6 +6,7 @@ import 'package:example/bottom_bar_salomon.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 
+import 'widget/bottom_bar_image_icon.dart';
 import 'bottom_bar_background.dart';
 import 'bottom_bar_divider.dart';
 import 'bottom_bar_floating.dart';
@@ -15,12 +16,12 @@ import 'debug/debug.dart';
 
 const List<TabItem> items = [
   TabItem(
-    icon: Icons.home,
-    // title: 'Home',
+    icon: Icons.favorite_border,
+    title: 'Favorite',
   ),
   TabItem(
-    icon: Icons.search_sharp,
-    title: 'Shop',
+    icon: BottomImageIconWidget(iconUrl: 'https://cdn-icons-png.flaticon.com/512/25/25694.png' ),
+    title: 'Home',
   ),
   TabItem(
     icon: Icons.favorite_border,
@@ -31,7 +32,7 @@ const List<TabItem> items = [
     title: 'Cart',
   ),
   TabItem(
-    icon: Icons.account_box,
+    icon: BottomImageIconWidget(iconUrl: 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png' ),
     title: 'profile',
   ),
 ];
@@ -80,286 +81,286 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       drawer: Drawer(
           child: ListView(
-        padding:const EdgeInsets.only(left: 16),
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text('Drawer Header'),
-          ),
-          Text('Inside', style: Theme.of(context).textTheme.headline5),
-          ListTile(
-            title: const Text('Bottom_bar_inside_cricle'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Inside(
-                    items: items,
-                    chipStyle: ChipStyle(convexBridge: true),
-                  ),
+            padding:const EdgeInsets.only(left: 16),
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
                 ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Bottom_bar_inside_hexagon'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Inside(
-                    items: items,
-                    style: ItemStyle.hexagon,
-                    chipStyle: ChipStyle(
-                      isHexagon: true,
-                      convexBridge: true,
+                child: Text('Drawer Header'),
+              ),
+              Text('Inside', style: Theme.of(context).textTheme.headline5),
+              ListTile(
+                title: const Text('Bottom_bar_inside_cricle'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Inside(
+                        items: items,
+                        chipStyle: ChipStyle(convexBridge: true),
+                      ),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
-          Text('Outside', style: Theme.of(context).textTheme.headline5),
-          ListTile(
-            title: const Text('Bottom_bar_outside_sharpEdge'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const OutSide(
-                    items: items,
-                    chipStyle: ChipStyle(notchSmoothness: NotchSmoothness.sharpEdge),
-                  ),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Bottom_bar_outside_default'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const OutSide(
-                    items: items,
-                    style: ItemStyle.circle,
-                  ),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Bottom_bar_outside_verySmoothEdge'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const OutSide(
-                    items: items,
-                    style: ItemStyle.circle,
-                    chipStyle: ChipStyle(notchSmoothness: NotchSmoothness.verySmoothEdge),
-                  ),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Bottom_bar_outside_smoothEdge'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const OutSide(
-                    items: items,
-                    style: ItemStyle.circle,
-                    chipStyle: ChipStyle(notchSmoothness: NotchSmoothness.smoothEdge),
-                  ),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Bottom_bar_outside_softEdge'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const OutSide(
-                    items: items,
-                    style: ItemStyle.circle,
-                    chipStyle: ChipStyle(notchSmoothness: NotchSmoothness.softEdge),
-                  ),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Bottom_bar_outside_drawHexagon'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const OutSide(
-                    items: items,
-                    top: -40,
-                    style: ItemStyle.hexagon,
-                    chipStyle: ChipStyle(drawHexagon: true),
-                  ),
-                ),
-              );
-            },
-          ),
-          Text('Salomon', style: Theme.of(context).textTheme.headline5),
-          ListTile(
-            title: const Text('Bottom_bar_salomon'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Salomon(items: items),
-                ),
-              );
-            },
-          ),
-          Text('Divider', style: Theme.of(context).textTheme.headline5),
-          ListTile(
-            title: const Text('Bottom_bar_divider_top'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const DividerDemo(items: items),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Bottom_bar_divider_bottom'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const DividerDemo(
-                    items: items,
-                    styleDivider: StyleDivider.bottom,
-                  ),
-                ),
-              );
-            },
-          ),
-          Text('Fancy', style: Theme.of(context).textTheme.headline5),
-          ListTile(
-            title: const Text('Bottom_bar_fancy_divider'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Fancy(items: items),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Bottom_bar_fancy_dot'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Fancy(
-                    items: items,
-                    style: StyleIconFooter.dot,
-                  ),
-                ),
-              );
-            },
-          ),
-          Text('Default', style: Theme.of(context).textTheme.headline5),
-          ListTile(
-            title: const Text('Bottom_bar_default'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Default(items: items),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Bottom_bar_background'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Background(items: items),
-                ),
-              );
-            },
-          ),
-          Text('Floating', style: Theme.of(context).textTheme.headline5),
-          ListTile(
-            title: const Text('Bottom_bar_floating'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Floating(items: items),
-                ),
-              );
-            },
-          ),
-          Text('Creative', style: Theme.of(context).textTheme.headline5),
-          ListTile(
-            title: const Text('Bottom_bar_creative_circle'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Creative(items: items),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Bottom_bar_creative_hexagon'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Creative(
-                    items: items,
-                    highlightStyle: HighlightStyle(
-                      isHexagon: true,
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Bottom_bar_inside_hexagon'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Inside(
+                        items: items,
+                        style: ItemStyle.hexagon,
+                        chipStyle: ChipStyle(
+                          isHexagon: true,
+                          convexBridge: true,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Bottom_bar_creative_cirlce_elevation'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Creative(
-                    items: items,
-                    isFloating: true,
-                    highlightStyle: HighlightStyle(
-                      sizeLarge: true,
-                      background: Colors.red,
-                      elevation: 3,
+                  );
+                },
+              ),
+              Text('Outside', style: Theme.of(context).textTheme.headline5),
+              ListTile(
+                title: const Text('Bottom_bar_outside_sharpEdge'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OutSide(
+                        items: items,
+                        chipStyle: ChipStyle(notchSmoothness: NotchSmoothness.sharpEdge),
+                      ),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ) // Populate the Drawer in the next step.
-          ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Bottom_bar_outside_default'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OutSide(
+                        items: items,
+                        style: ItemStyle.circle,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Bottom_bar_outside_verySmoothEdge'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OutSide(
+                        items: items,
+                        style: ItemStyle.circle,
+                        chipStyle: ChipStyle(notchSmoothness: NotchSmoothness.verySmoothEdge),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Bottom_bar_outside_smoothEdge'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OutSide(
+                        items: items,
+                        style: ItemStyle.circle,
+                        chipStyle: ChipStyle(notchSmoothness: NotchSmoothness.smoothEdge),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Bottom_bar_outside_softEdge'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OutSide(
+                        items: items,
+                        style: ItemStyle.circle,
+                        chipStyle: ChipStyle(notchSmoothness: NotchSmoothness.softEdge),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Bottom_bar_outside_drawHexagon'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OutSide(
+                        items: items,
+                        top: -40,
+                        style: ItemStyle.hexagon,
+                        chipStyle: ChipStyle(drawHexagon: true),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              Text('Salomon', style: Theme.of(context).textTheme.headline5),
+              ListTile(
+                title: const Text('Bottom_bar_salomon'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Salomon(items: items),
+                    ),
+                  );
+                },
+              ),
+              Text('Divider', style: Theme.of(context).textTheme.headline5),
+              ListTile(
+                title: const Text('Bottom_bar_divider_top'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DividerDemo(items: items),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Bottom_bar_divider_bottom'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DividerDemo(
+                        items: items,
+                        styleDivider: StyleDivider.bottom,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              Text('Fancy', style: Theme.of(context).textTheme.headline5),
+              ListTile(
+                title: const Text('Bottom_bar_fancy_divider'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Fancy(items: items),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Bottom_bar_fancy_dot'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Fancy(
+                        items: items,
+                        style: StyleIconFooter.dot,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              Text('Default', style: Theme.of(context).textTheme.headline5),
+              ListTile(
+                title: const Text('Bottom_bar_default'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Default(items: items),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Bottom_bar_background'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Background(items: items),
+                    ),
+                  );
+                },
+              ),
+              Text('Floating', style: Theme.of(context).textTheme.headline5),
+              ListTile(
+                title: const Text('Bottom_bar_floating'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Floating(items: items),
+                    ),
+                  );
+                },
+              ),
+              Text('Creative', style: Theme.of(context).textTheme.headline5),
+              ListTile(
+                title: const Text('Bottom_bar_creative_circle'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Creative(items: items),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Bottom_bar_creative_hexagon'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Creative(
+                        items: items,
+                        highlightStyle: HighlightStyle(
+                          isHexagon: true,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Bottom_bar_creative_cirlce_elevation'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Creative(
+                        items: items,
+                        isFloating: true,
+                        highlightStyle: HighlightStyle(
+                          sizeLarge: true,
+                          background: Colors.red,
+                          elevation: 3,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ) // Populate the Drawer in the next step.
+      ),
       body: SingleChildScrollView(
         padding:const EdgeInsets.symmetric(vertical: 20),
         child: Column(
