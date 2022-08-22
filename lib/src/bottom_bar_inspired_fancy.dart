@@ -58,14 +58,15 @@ class BottomBarInspiredFancy extends StatefulWidget {
     this.bottom = 24,
     this.top = 24,
     this.pad = 4,
-    this.enableShadow =true,
+    this.enableShadow = true,
   }) : super(key: key);
 
   @override
   _BottomBarInspiredFancyState createState() => _BottomBarInspiredFancyState();
 }
 
-class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with TickerProviderStateMixin {
+class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy>
+    with TickerProviderStateMixin {
   late List<AnimationController> _animationControllerList;
   late List<Animation<Color?>> _animationList;
 
@@ -82,11 +83,13 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
     _animationList = List<Animation<Color?>>.empty(growable: true);
 
     for (int i = 0; i < widget.items.length; ++i) {
-      _animationControllerList
-          .add(AnimationController(duration: widget.duration ?? const Duration(milliseconds: 400), vsync: this));
-      _animationList.add(ColorTween(begin: widget.color, end: widget.colorSelected)
-          .chain(CurveTween(curve: widget.curve ?? Curves.ease))
-          .animate(_animationControllerList[i]));
+      _animationControllerList.add(AnimationController(
+          duration: widget.duration ?? const Duration(milliseconds: 400),
+          vsync: this));
+      _animationList.add(
+          ColorTween(begin: widget.color, end: widget.colorSelected)
+              .chain(CurveTween(curve: widget.curve ?? Curves.ease))
+              .animate(_animationControllerList[i]));
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -110,13 +113,22 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
     double padTop = 24,
     double padBottom = 24,
   }) {
-    EdgeInsets padding = EdgeInsets.only(top: widget.top ?? padTop, bottom: padBottom);
+    EdgeInsets padding =
+        EdgeInsets.only(top: widget.top ?? padTop, bottom: padBottom);
 
-    double widthFancy = widget.styleIconFooter == StyleIconFooter.dot ? 4 : widget.iconSize;
-    BoxDecoration decorationFancy = widget.styleIconFooter == StyleIconFooter.dot
-        ? BoxDecoration(
-            color: index == _selectedIndex ? widget.colorSelected : Colors.transparent, shape: BoxShape.circle)
-        : BoxDecoration(color: index == _selectedIndex ? widget.colorSelected : Colors.transparent);
+    double widthFancy =
+        widget.styleIconFooter == StyleIconFooter.dot ? 4 : widget.iconSize;
+    BoxDecoration decorationFancy =
+        widget.styleIconFooter == StyleIconFooter.dot
+            ? BoxDecoration(
+                color: index == _selectedIndex
+                    ? widget.colorSelected
+                    : Colors.transparent,
+                shape: BoxShape.circle)
+            : BoxDecoration(
+                color: index == _selectedIndex
+                    ? widget.colorSelected
+                    : Colors.transparent);
     Widget fancy = widget.animated
         ? AnimatedContainer(
             height: 4,
@@ -124,7 +136,9 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
             decoration: decorationFancy,
             duration: widget.duration ?? const Duration(milliseconds: 300),
             curve: widget.curve ?? Curves.easeIn,
-            margin: index == _selectedIndex ? EdgeInsets.zero : EdgeInsets.only(top: padBottom - 12),
+            margin: index == _selectedIndex
+                ? EdgeInsets.zero
+                : EdgeInsets.only(top: padBottom - 12),
           )
         : Container(
             height: 4,
@@ -138,11 +152,15 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
           AnimatedBuilder(
             animation: _animationList[index],
             builder: (context, child) {
-              return buildItemContent(item, _animationList[index].value ?? widget.color, padding);
+              return buildItemContent(
+                  item, _animationList[index].value ?? widget.color, padding);
             },
           )
         else
-          buildItemContent(item, _selectedIndex == index ? widget.colorSelected : widget.color, padding),
+          buildItemContent(
+              item,
+              _selectedIndex == index ? widget.colorSelected : widget.color,
+              padding),
         Positioned(
           left: 0,
           right: 0,
@@ -166,7 +184,8 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
     );
   }
 
-  Widget buildItemContent(TabItem item, Color color, EdgeInsetsGeometry padding) {
+  Widget buildItemContent(
+      TabItem item, Color color, EdgeInsetsGeometry padding) {
     return Container(
       width: double.infinity,
       padding: padding,
@@ -184,7 +203,11 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
             SizedBox(height: widget.pad ?? 4),
             Text(
               item.title!,
-              style: Theme.of(context).textTheme.overline?.merge(widget.titleStyle).copyWith(color: color),
+              style: Theme.of(context)
+                  .textTheme
+                  .overline
+                  ?.merge(widget.titleStyle)
+                  .copyWith(color: color),
               textAlign: TextAlign.center,
             )
           ],
@@ -200,22 +223,26 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
     double padBottomDefault = bottom > 0 ? bottom : 24;
 
     double padTop = widget.paddingVertical ?? 24;
-    double padBottom = widget.bottom ?? widget.paddingVertical ?? padBottomDefault;
+    double padBottom =
+        widget.bottom ?? widget.paddingVertical ?? padBottomDefault;
 
     if (padBottom < 12) {
       padBottom = padBottom + 12;
     }
 
     if (widget.items.length != _animationControllerList.length) {
-      _animationControllerList = List<AnimationController>.empty(growable: true);
+      _animationControllerList =
+          List<AnimationController>.empty(growable: true);
       _animationList = List<Animation<Color?>>.empty(growable: true);
 
       for (int i = 0; i < widget.items.length; ++i) {
-        _animationControllerList
-            .add(AnimationController(duration: widget.duration ?? const Duration(milliseconds: 400), vsync: this));
-        _animationList.add(ColorTween(begin: widget.color, end: widget.colorSelected)
-            .chain(CurveTween(curve: widget.curve ?? Curves.ease))
-            .animate(_animationControllerList[i]));
+        _animationControllerList.add(AnimationController(
+            duration: widget.duration ?? const Duration(milliseconds: 400),
+            vsync: this));
+        _animationList.add(
+            ColorTween(begin: widget.color, end: widget.colorSelected)
+                .chain(CurveTween(curve: widget.curve ?? Curves.ease))
+                .animate(_animationControllerList[i]));
       }
     }
 
@@ -234,7 +261,9 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
 
     return BuildLayout(
       decoration: BoxDecoration(
-          color: widget.backgroundColor, borderRadius: widget.borderRadius, boxShadow: widget.boxShadow ?? shadow),
+          color: widget.backgroundColor,
+          borderRadius: widget.borderRadius,
+          boxShadow: widget.boxShadow ?? shadow),
       blur: widget.blur,
       child: widget.items.isNotEmpty
           ? IntrinsicHeight(
@@ -253,13 +282,23 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
                                     _selectedIndex = index;
                                   });
                                   if (widget.animated) {
-                                    _animationControllerList[_selectedIndex].forward();
-                                    _animationControllerList[_lastSelectedIndex].reverse();
+                                    _animationControllerList[_selectedIndex]
+                                        .forward();
+                                    _animationControllerList[_lastSelectedIndex]
+                                        .reverse();
                                   }
                                 }
                               }
                             }
-                          : null,
+                          : () {
+                              widget.onTap!.call(index);
+                              if (widget.onTap == null) {
+                                setState(() {
+                                  _lastSelectedIndex = _selectedIndex;
+                                  _selectedIndex = index;
+                                });
+                              }
+                            },
                       child: widget.items.length > index
                           ? buildItem(
                               context,
