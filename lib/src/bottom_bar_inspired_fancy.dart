@@ -58,7 +58,7 @@ class BottomBarInspiredFancy extends StatefulWidget {
     this.bottom = 24,
     this.top = 24,
     this.pad = 4,
-    this.enableShadow =true,
+    this.enableShadow = true,
   }) : super(key: key);
 
   @override
@@ -75,7 +75,6 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
   @override
   void initState() {
     super.initState();
-    _selectedIndex = widget.indexSelected;
     _lastSelectedIndex = 0;
     _selectedIndex = widget.indexSelected;
     _animationControllerList = List<AnimationController>.empty(growable: true);
@@ -113,10 +112,10 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
     EdgeInsets padding = EdgeInsets.only(top: widget.top ?? padTop, bottom: padBottom);
 
     double widthFancy = widget.styleIconFooter == StyleIconFooter.dot ? 4 : widget.iconSize;
+    bool active = index == _selectedIndex;
     BoxDecoration decorationFancy = widget.styleIconFooter == StyleIconFooter.dot
-        ? BoxDecoration(
-            color: index == _selectedIndex ? widget.colorSelected : Colors.transparent, shape: BoxShape.circle)
-        : BoxDecoration(color: index == _selectedIndex ? widget.colorSelected : Colors.transparent);
+        ? BoxDecoration(color: active ? widget.colorSelected : Colors.transparent, shape: BoxShape.circle)
+        : BoxDecoration(color: active ? widget.colorSelected : Colors.transparent);
     Widget fancy = widget.animated
         ? AnimatedContainer(
             height: 4,
@@ -124,25 +123,24 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
             decoration: decorationFancy,
             duration: widget.duration ?? const Duration(milliseconds: 300),
             curve: widget.curve ?? Curves.easeIn,
-            margin: index == _selectedIndex ? EdgeInsets.zero : EdgeInsets.only(top: padBottom - 12),
+            margin: active ? EdgeInsets.zero : EdgeInsets.only(top: padBottom - 12),
           )
         : Container(
             height: 4,
             width: widthFancy,
             decoration: decorationFancy,
           );
-
     return Stack(
       children: [
         if (widget.animated)
           AnimatedBuilder(
             animation: _animationList[index],
             builder: (context, child) {
-              return buildItemContent(item, _animationList[index].value ?? widget.color, padding);
+              return buildItemContent(item, active ? widget.colorSelected : widget.color, padding);
             },
           )
         else
-          buildItemContent(item, _selectedIndex == index ? widget.colorSelected : widget.color, padding),
+          buildItemContent(item, active ? widget.colorSelected : widget.color, padding),
         Positioned(
           left: 0,
           right: 0,
