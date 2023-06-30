@@ -239,7 +239,7 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: List.generate(widget.items.length, (index) {
-                  String value = widget.items[_selectedIndex].key ?? '';
+                  String value = widget.items[index].key ?? '';
                   return Expanded(
                     child: InkWell(
                       key: Key(value),
