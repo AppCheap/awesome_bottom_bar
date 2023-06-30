@@ -229,8 +229,10 @@ class _BottomBarBackgroundState extends State<BottomBarBackground> with TickerPr
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: List.generate(widget.items.length, (index) {
+                        String? value = widget.items[_selectedIndex].key;
                         return Expanded(
                           child: InkWell(
+                            key: ValueKey(value),
                             onTap: index != _selectedIndex
                                 ? () {
                                     if (index != _selectedIndex) {

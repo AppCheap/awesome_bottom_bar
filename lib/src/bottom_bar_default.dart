@@ -187,9 +187,11 @@ class _BottomBarDefaultState extends State<BottomBarDefault> with TickerProvider
           ? IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: List.generate(widget.items.length, (index) {
+                children: List.generate(widget.items.length, (index) {    
+                  String? value = widget.items[_selectedIndex ?? 0].key;
                   return Expanded(
                     child: InkWell(
+                      key: ValueKey(value),
                       onTap: index != _selectedIndex!
                           ? () {
                               if (index != _selectedIndex) {
