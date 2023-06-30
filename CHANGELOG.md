@@ -1,3 +1,6 @@
+## 1.2.2
+* Fixed: Animated active color
+
 ## 1.2.1
 * Fixed: Operand of null-aware operation '!' has type 'WidgetsBinding' which excludes null.
 
