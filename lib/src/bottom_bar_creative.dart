@@ -100,10 +100,10 @@ class _BottomBarCreativeState extends State<BottomBarCreative> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(widget.items.length, (index) {
                   TabItem item = widget.items[index];
-                  String? value = widget.items[widget.indexSelected].key;
+                  String value = widget.items[widget.indexSelected].key ?? '';
                   if (visit == index) {
                     Widget highlightWidget = GestureDetector(
-                      key: ValueKey(value),
+                      key: Key(value),
                       onTap: index != widget.indexSelected ? () => widget.onTap?.call(visit) : null,
                       child: buildHighLight(context, item: item, color: widget.colorSelected, size: sizeHighlight),
                     );
