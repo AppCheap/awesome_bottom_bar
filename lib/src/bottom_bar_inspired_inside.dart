@@ -1,12 +1,8 @@
-import 'package:awesome_bottom_bar/widgets/hexagon/hexagon.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
-import 'package:awesome_bottom_bar/widgets/inspired/transition_container.dart';
 import 'package:flutter/material.dart';
-
 import '../chip_style.dart';
 import '../count_style.dart';
 import '../tab_item.dart';
-import '../widgets/build_icon.dart';
 
 class BottomBarInspiredInside extends StatefulWidget {
   final List<TabItem> items;
@@ -66,11 +62,11 @@ class BottomBarInspiredInside extends StatefulWidget {
 }
 
 class _BottomBarInspiredInsideState extends State<BottomBarInspiredInside> {
+  String value = '';
   @override
   Widget build(BuildContext context) {
     return Inspired(
       height: widget.height!,
-      count: widget.items.length,
       background: widget.backgroundColor,
       fixed: widget.fixed,
       elevation: widget.elevation,
@@ -81,102 +77,21 @@ class _BottomBarInspiredInsideState extends State<BottomBarInspiredInside> {
       padbottom: widget.padbottom,
       fixedIndex: widget.fixedIndex,
       radius: widget.radius,
-      itemBuilder: (_, int index, bool active) => buildItem(
-        context,
-        item: widget.items[index],
-        index: index,
-        isSelected: index == widget.indexSelected,
-      ),
       initialActive: widget.indexSelected,
       iconChip: (int index) => widget.items[index].icon,
+      items: widget.items,
       onTap: widget.onTap,
       chipStyle: widget.chipStyle,
       itemStyle: widget.itemStyle,
-    );
-  }
-
-  Widget buildItem(
-    BuildContext context, {
-    required TabItem item,
-    required int index,
-    bool isSelected = false,
-  }) {
-    Color itemColor() {
-      if (widget.fixed) {
-        return isSelected ? widget.chipStyle!.background! : widget.color;
-      }
-      return isSelected ? widget.colorSelected : widget.color;
-    }
-
-    if (widget.fixed ? widget.fixedIndex == index : isSelected) {
-      if (widget.animated) {
-        return TransitionContainer.flip(
-          data: index,
-          duration: widget.duration ?? const Duration(milliseconds: 350),
-          height: 80,
-          curve: widget.curve ?? Curves.easeInOutCubic,
-          bottomChild: buildContentItem(item, itemColor(), widget.iconSize, widget.sizeInside!),
-        );
-      }
-      return buildContentItem(item, itemColor(), widget.iconSize, widget.sizeInside!);
-    }
-    return Container(
-      padding: EdgeInsets.only(bottom: widget.padbottom!, top: widget.padTop!),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          BuildIcon(
-            item: item,
-            iconColor: itemColor(),
-            iconSize: widget.iconSize,
-            countStyle: widget.countStyle,
-          ),
-          if (item.title is String && item.title != '') ...[
-            SizedBox(height: widget.pad),
-            Text(
-              item.title!,
-              style: Theme.of(context).textTheme.overline?.merge(widget.titleStyle).copyWith(color: itemColor()),
-              textAlign: TextAlign.center,
-            )
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget buildContentItem(TabItem item, Color itemColor, double iconSize, double sizeInside) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        if (widget.itemStyle == ItemStyle.circle)
-          Container(
-            width: sizeInside,
-            height: sizeInside,
-            decoration: BoxDecoration(color: widget.chipStyle?.background!, shape: BoxShape.circle),
-            alignment: Alignment.center,
-            child: BuildIcon(
-              item: item,
-              iconColor: widget.fixed ? widget.colorSelected : itemColor,
-              iconSize: iconSize,
-              countStyle: widget.countStyle,
-            ),
-          ),
-        if (widget.itemStyle == ItemStyle.hexagon)
-          HexagonWidget(
-            width: sizeInside,
-            height: sizeInside,
-            cornerRadius: 8,
-            color: widget.chipStyle?.background ?? Colors.blue,
-            child: BuildIcon(
-              item: item,
-              iconColor: widget.fixed ? widget.colorSelected : itemColor,
-              iconSize: iconSize,
-              countStyle: widget.countStyle,
-            ),
-          ),
-      ],
+      color: widget.color,
+      colorSelected: widget.colorSelected,
+      iconSize: widget.iconSize,
+      countStyle: widget.countStyle,
+      titleStyle: widget.titleStyle,
+      sizeInside: widget.sizeInside,
+      duration: widget.duration,
+      curve: Curves.easeInOutCubic,
+      animateStyle: 'flip',
     );
   }
 }
