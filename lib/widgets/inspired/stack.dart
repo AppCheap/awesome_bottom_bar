@@ -18,7 +18,7 @@ import 'package:flutter/widgets.dart' as widget;
 
 class Stack extends widget.Stack {
   /// Create stack instance
-  Stack({
+  const Stack({
     widget.Key? key,
     AlignmentGeometry alignment = AlignmentDirectional.topStart,
     TextDirection? textDirection,
@@ -64,7 +64,8 @@ class _RenderStack extends RenderStack {
   @override
   bool hitTest(BoxHitTestResult result, {required Offset position}) {
     if (clipBehavior == Clip.none || size.contains(position)) {
-      if (hitTestChildren(result, position: position) || hitTestSelf(position)) {
+      if (hitTestChildren(result, position: position) ||
+          hitTestSelf(position)) {
         result.add(BoxHitTestEntry(this, position));
         return true;
       }

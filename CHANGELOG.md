@@ -1,3 +1,7 @@
+## 1.2.3
+* Add: Key for each tab item
+* Support: Flutter SDK 3.10.x
+
 ## 1.2.2
 * Fixed: Animated active color
 
