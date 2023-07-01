@@ -100,8 +100,10 @@ class _BottomBarCreativeState extends State<BottomBarCreative> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(widget.items.length, (index) {
                   TabItem item = widget.items[index];
+                  String value = widget.items[index].key ?? '';
                   if (visit == index) {
                     Widget highlightWidget = GestureDetector(
+                      key: Key(value),
                       onTap: index != widget.indexSelected ? () => widget.onTap?.call(visit) : null,
                       child: buildHighLight(context, item: item, color: widget.colorSelected, size: sizeHighlight),
                     );
@@ -128,6 +130,7 @@ class _BottomBarCreativeState extends State<BottomBarCreative> {
                   }
                   return Expanded(
                     child: InkWell(
+                      key: ValueKey(value),
                       onTap: index != widget.indexSelected ? () => widget.onTap?.call(index) : null,
                       child: widget.items.length > index
                           ? buildItem(
@@ -180,7 +183,7 @@ class _BottomBarCreativeState extends State<BottomBarCreative> {
             SizedBox(height: widget.pad),
             Text(
               item.title!,
-              style: Theme.of(context).textTheme.overline?.merge(widget.titleStyle).copyWith(color: itemColor),
+              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor),
               textAlign: TextAlign.center,
             )
           ],

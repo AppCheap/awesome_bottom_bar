@@ -15,11 +15,17 @@
  */
 
 
+import 'package:awesome_bottom_bar/count_style.dart';
+import 'package:awesome_bottom_bar/tab_item.dart';
+import 'package:awesome_bottom_bar/widgets/build_icon.dart';
+import 'package:awesome_bottom_bar/widgets/hexagon/hexagon.dart';
+
 import '../../chip_style.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'stack.dart' as extend;
 import 'painter.dart';
+import 'transition_container.dart';
 
 /// Default size of the curve line.
 const double converSize = 80;
@@ -27,7 +33,6 @@ const double converSize = 80;
 enum ItemStyle { hexagon, circle }
 
 class Inspired extends StatefulWidget {
-  final int count;
   final bool fixed;
   final double height;
   final Color background;
@@ -35,28 +40,35 @@ class Inspired extends StatefulWidget {
   final Curve curve;
   final double? cornerRadius;
   final void Function(int index)? onTap;
-  final Widget Function(BuildContext context, int index, bool active) itemBuilder;
   final ChipStyle? chipStyle;
   final double? elevation;
-  final IconData Function(int index) iconChip;
   final double? top;
   final double? curveSize;
   final double? containerSize;
   final ItemStyle? itemStyle;
-  final bool? animated;
-  final bool? isAnimated;
+  final bool animated;
+  final bool isAnimated;
   final Color? shadowColor;
   final double? padTop;
   final double? padbottom;
   final double? pad;
   final double? radius;
   final int? fixedIndex;
+  final Color color;
+  final Color colorSelected;
+  final double iconSize;
+  final CountStyle? countStyle;
+  final TextStyle? titleStyle;
+  final double? sizeInside;
+  final Duration? duration;
+  final String animateStyle;
+  final List<TabItem<dynamic>> items;
   const Inspired({
     Key? key,
     required this.background,
-    required this.itemBuilder,
-    required this.iconChip,
-    this.count = 5,
+    required this.items,
+    required this.color,
+    required this.colorSelected,
     this.fixed = false,
     this.height = 40,
     this.initialActive,
@@ -77,6 +89,12 @@ class Inspired extends StatefulWidget {
     this.pad = 4,
     this.radius = 0,
     this.fixedIndex = 0,
+    this.iconSize = 22,
+    this.countStyle,
+    this.titleStyle,
+    this.sizeInside = 48,
+    this.duration,
+    this.animateStyle = 'flip',
   }) : super(key: key);
 
   @override
@@ -91,8 +109,11 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
 
   static const _transitionDuration = 100;
 
+  int count = 5;
+
   @override
   void initState() {
+    count = widget.items.length;
     if (widget.cornerRadius != null && widget.cornerRadius! > 0 && !widget.fixed) {
       throw FlutterError.fromParts(<DiagnosticsNode>[
         ErrorSummary('ConvexAppBar is configured with cornerRadius'),
@@ -133,8 +154,8 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
     }
     from ??= widget.fixed ? widget.fixedIndex : _controller?.index ?? widget.initialActive ?? 0;
     to ??= from;
-    final lower = (2 * from! + 1) / (2 * widget.count);
-    final upper = (2 * to! + 1) / (2 * widget.count);
+    final lower = (2 * from! + 1) / (2 * count);
+    final upper = (2 * to! + 1) / (2 * count);
     _animationController?.dispose();
     final controller = AnimationController(duration: duration, vsync: this);
     final curve = CurvedAnimation(
@@ -174,7 +195,7 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
   @override
   void didUpdateWidget(Inspired oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.count != oldWidget.count || widget.animated == oldWidget.animated) {
+    if (widget.animated == oldWidget.animated) {
       _resetState();
     }
   }
@@ -184,7 +205,7 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
     // take care of iPhoneX' safe area at bottom edge
     double additionalBottomPadding = math.max(MediaQuery.of(context).padding.bottom, 0.0);
 
-    int convexIndex = widget.fixed ? (widget.fixedIndex ?? (widget.count ~/ 2)) : _currentIndex ?? 0;
+    int convexIndex = widget.fixed ? (widget.fixedIndex ?? (count ~/ 2)) : _currentIndex ?? 0;
 
     bool active = widget.fixed ? convexIndex == _currentIndex : true;
 
@@ -196,9 +217,9 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
         : widget.isAnimated == true
             ? _updateAnimation()
             : _updateAnimation();
-    double factor = 1 / widget.count;
+    double factor = 1 / count;
     TextDirection textDirection = Directionality.of(context);
-    double dx = convexIndex / (widget.count - 1);
+    double dx = convexIndex / (count - 1);
     if (textDirection == TextDirection.rtl) {
       dx = 1 - dx;
     }
@@ -211,7 +232,8 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
 
     NotchSmoothness notchSmoothness = widget.chipStyle?.notchSmoothness ?? NotchSmoothness.defaultEdge;
 
-    var offset = FractionalOffset(widget.count > 1 ? dx : 0.0, 0);
+    var offset = FractionalOffset(count > 1 ? dx : 0.0, 0);
+
     return extend.Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.bottomCenter,
@@ -236,9 +258,9 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
               leftCornerRadius: widget.fixed && widget.fixedIndex == 0
                   ? 0
                   : (widget.initialActive == 0 && !widget.fixed ? 0 : widget.radius!),
-              rightCornerRadius: widget.fixed && widget.fixedIndex == widget.count - 1
+              rightCornerRadius: widget.fixed && widget.fixedIndex == count - 1
                   ? 0
-                  : (widget.initialActive == widget.count - 1 && !widget.fixed ? 0 : widget.radius!),
+                  : (widget.initialActive == count - 1 && !widget.fixed ? 0 : widget.radius!),
             ),
           ),
         ),
@@ -249,10 +271,7 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
           child: FractionallySizedBox(
             widthFactor: factor,
             alignment: offset,
-            child: GestureDetector(
-              onTap: () => _onTabClick(convexIndex),
-              child: widget.itemBuilder(context, convexIndex, active),
-            ),
+            child: buildItem(context, item: widget.items[convexIndex], index: convexIndex, active: active),
           ),
         ),
       ],
@@ -261,19 +280,23 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
 
   Widget _barContent(double height, double paddingBottom, int curveTabIndex) {
     var children = <Widget>[];
-    for (var i = 0; i < widget.count; i++) {
+    for (var i = 0; i < count; i++) {
+      String value = widget.items[i].key ?? '';
       if (i == curveTabIndex) {
         children.add(Expanded(child: Container()));
         continue;
       }
       var active = _currentIndex == i;
+
       children.add(Expanded(
         child: GestureDetector(
+            key: ValueKey(value),
           behavior: HitTestBehavior.opaque,
-          onTap: () => _onTabClick(i),
-          child: widget.itemBuilder(context, i, active),
+            onTap: () => _onTabClick(i),
+            child: buildItem(context, item: widget.items[i], index: i, active: active),
+          ),
         ),
-      ));
+      );
     }
     return Container(
       height: height,
@@ -283,6 +306,95 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: children,
       ),
+    );
+  }
+
+  Widget buildItem(BuildContext context, {required TabItem item, required int index, bool active = false}) {
+    Color itemColor() {
+      if (widget.fixed) {
+        return active ? widget.chipStyle!.background! : widget.color;
+      }
+      return active ? widget.colorSelected : widget.color;
+    }
+
+    if (widget.fixed ? widget.fixedIndex == index : active) {
+      if (widget.animated) {
+        if (widget.animateStyle == 'flip') {
+          return TransitionContainer.flip(
+            data: index,
+            duration: widget.duration ?? const Duration(milliseconds: 350),
+            height: 80,
+            curve: widget.curve,
+            bottomChild: buildContentItem(item, itemColor(), widget.iconSize, widget.sizeInside!),
+          );
+        } else {
+          return TransitionContainer.scale(
+            data: index,
+            duration: widget.duration ?? const Duration(milliseconds: 350),
+            curve: widget.curve,
+            child: buildContentItem(item, itemColor(), widget.iconSize, widget.sizeInside!),
+          );
+        }
+      }
+      return buildContentItem(item, itemColor(), widget.iconSize, widget.sizeInside!);
+    }
+    return Container(
+      padding: EdgeInsets.only(bottom: widget.padbottom!, top: widget.padTop!),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          BuildIcon(
+            item: item,
+            iconColor: itemColor(),
+            iconSize: widget.iconSize,
+            countStyle: widget.countStyle,
+          ),
+          if (item.title is String && item.title != '') ...[
+            SizedBox(height: widget.pad),
+            Text(
+              item.title!,
+              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor()),
+              textAlign: TextAlign.center,
+            )
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget buildContentItem(TabItem item, Color itemColor, double iconSize, double sizeInside) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (widget.itemStyle == ItemStyle.circle)
+          Container(
+            width: sizeInside,
+            height: sizeInside,
+            decoration: BoxDecoration(color: widget.chipStyle?.background!, shape: BoxShape.circle),
+            alignment: Alignment.center,
+            child: BuildIcon(
+              item: item,
+              iconColor: widget.fixed ? widget.colorSelected : itemColor,
+              iconSize: iconSize,
+              countStyle: widget.countStyle,
+            ),
+          ),
+        if (widget.itemStyle == ItemStyle.hexagon)
+          HexagonWidget(
+            width: sizeInside,
+            height: sizeInside,
+            cornerRadius: 8,
+            color: widget.chipStyle?.background ?? Colors.blue,
+            child: BuildIcon(
+              item: item,
+              iconColor: widget.fixed ? widget.colorSelected : itemColor,
+              iconSize: iconSize,
+              countStyle: widget.countStyle,
+            ),
+          ),
+      ],
     );
   }
 }

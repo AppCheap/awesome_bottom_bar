@@ -95,8 +95,10 @@ class _BottomBarDividerState extends State<BottomBarDivider> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: List.generate(widget.items.length, (index) {
+                        String value = widget.items[index].key ?? '';
                         return Expanded(
                           child: InkWell(
+                            key: Key(value),
                             onTap: () => widget.onTap?.call(index),
                             child: widget.items.length > index
                                 ? SizedBox(
@@ -165,7 +167,7 @@ class _BottomBarDividerState extends State<BottomBarDivider> {
             SizedBox(height: widget.pad),
             Text(
               item.title!,
-              style: Theme.of(context).textTheme.overline?.merge(widget.titleStyle).copyWith(color: itemColor),
+              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor),
               textAlign: TextAlign.center,
             )
           ],

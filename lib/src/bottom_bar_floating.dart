@@ -140,7 +140,7 @@ class _BottomBarFloatingState extends State<BottomBarFloating> with TickerProvid
             SizedBox(height: widget.pad),
             Text(
               item.title!,
-              style: Theme.of(context).textTheme.overline?.merge(widget.titleStyle).copyWith(color: itemColor),
+              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor),
               textAlign: TextAlign.center,
             )
           ],
@@ -187,8 +187,10 @@ class _BottomBarFloatingState extends State<BottomBarFloating> with TickerProvid
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: List.generate(widget.items.length, (index) {
+                  String value = widget.items[index].key ?? '';
                   return Expanded(
                     child: InkWell(
+                      key: Key(value),
                       onTap: index != _selectedIndex!
                           ? () {
                               if (index != _selectedIndex) {

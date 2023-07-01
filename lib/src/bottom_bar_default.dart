@@ -141,7 +141,7 @@ class _BottomBarDefaultState extends State<BottomBarDefault> with TickerProvider
             SizedBox(height: widget.pad),
             Text(
               item.title!,
-              style: Theme.of(context).textTheme.overline?.merge(widget.titleStyle).copyWith(color: itemColor),
+              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor),
               textAlign: TextAlign.center,
             )
           ],
@@ -187,9 +187,11 @@ class _BottomBarDefaultState extends State<BottomBarDefault> with TickerProvider
           ? IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: List.generate(widget.items.length, (index) {
+                children: List.generate(widget.items.length, (index) {    
+                  String value = widget.items[index].key ?? '';
                   return Expanded(
                     child: InkWell(
+                      key: Key(value),
                       onTap: index != _selectedIndex!
                           ? () {
                               if (index != _selectedIndex) {
