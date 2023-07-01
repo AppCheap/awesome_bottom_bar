@@ -182,7 +182,7 @@ class _BottomBarInspiredFancyState extends State<BottomBarInspiredFancy> with Ti
             SizedBox(height: widget.pad ?? 4),
             Text(
               item.title!,
-              style: Theme.of(context).textTheme.overline?.merge(widget.titleStyle).copyWith(color: color),
+              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: color),
               textAlign: TextAlign.center,
             )
           ],

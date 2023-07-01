@@ -140,7 +140,7 @@ class _BottomBarFloatingState extends State<BottomBarFloating> with TickerProvid
             SizedBox(height: widget.pad),
             Text(
               item.title!,
-              style: Theme.of(context).textTheme.overline?.merge(widget.titleStyle).copyWith(color: itemColor),
+              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor),
               textAlign: TextAlign.center,
             )
           ],

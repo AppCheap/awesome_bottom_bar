@@ -78,7 +78,6 @@ class _BottomBarInspiredInsideState extends State<BottomBarInspiredInside> {
       fixedIndex: widget.fixedIndex,
       radius: widget.radius,
       initialActive: widget.indexSelected,
-      iconChip: (int index) => widget.items[index].icon,
       items: widget.items,
       onTap: widget.onTap,
       chipStyle: widget.chipStyle,
@@ -90,7 +89,7 @@ class _BottomBarInspiredInsideState extends State<BottomBarInspiredInside> {
       titleStyle: widget.titleStyle,
       sizeInside: widget.sizeInside,
       duration: widget.duration,
-      curve: Curves.easeInOutCubic,
+      curve: widget.curve ?? Curves.easeInOutCubic,
       animateStyle: 'flip',
     );
   }

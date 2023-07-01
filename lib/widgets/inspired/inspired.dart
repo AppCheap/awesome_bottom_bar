@@ -42,7 +42,6 @@ class Inspired extends StatefulWidget {
   final void Function(int index)? onTap;
   final ChipStyle? chipStyle;
   final double? elevation;
-  final IconData Function(int index) iconChip;
   final double? top;
   final double? curveSize;
   final double? containerSize;
@@ -67,7 +66,6 @@ class Inspired extends StatefulWidget {
   const Inspired({
     Key? key,
     required this.background,
-    required this.iconChip,
     required this.items,
     required this.color,
     required this.colorSelected,

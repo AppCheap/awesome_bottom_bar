@@ -132,7 +132,7 @@ class _BottomBarBackgroundState extends State<BottomBarBackground> with TickerPr
             SizedBox(height: widget.pad),
             Text(
               item.title!,
-              style: Theme.of(context).textTheme.overline?.merge(widget.titleStyle).copyWith(color: color),
+              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: color),
               textAlign: TextAlign.center,
             )
           ],

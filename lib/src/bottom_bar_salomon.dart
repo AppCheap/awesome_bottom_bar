@@ -190,7 +190,8 @@ class _BottomBarSalomonState extends State<BottomBarSalomon> with TickerProvider
                     padding: const EdgeInsetsDirectional.only(start: 8),
                     child: Text(
                       item.title!,
-                      style: Theme.of(context).textTheme.overline?.merge(widget.titleStyle).copyWith(color: itemColor),
+                      style:
+                          Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor),
                       textAlign: TextAlign.center,
                     ),
                   ),

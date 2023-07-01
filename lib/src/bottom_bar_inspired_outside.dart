@@ -85,7 +85,6 @@ class _BottomBarInspiredOutsideState extends State<BottomBarInspiredOutside> {
       radius: widget.radius,
       fixedIndex: widget.fixedIndex,
       initialActive: widget.indexSelected,
-      iconChip: (int index) => widget.items[index].icon,
       items: widget.items,
       onTap: widget.onTap,
       chipStyle: widget.chipStyle ?? const ChipStyle(notchSmoothness: NotchSmoothness.defaultEdge),
@@ -100,7 +99,7 @@ class _BottomBarInspiredOutsideState extends State<BottomBarInspiredOutside> {
       titleStyle: widget.titleStyle,
       sizeInside: widget.sizeInside,
       duration: widget.duration,
-      curve: Curves.easeInOut,
+      curve: widget.curve ?? Curves.easeInOut,
       animateStyle: 'scale',
     );
   }
