@@ -1,3 +1,7 @@
+## 1.2.4
+* Fixed value in widget inspired
+* Fixed: top of floating creative no click
+
 ## 1.2.3
 * Add: Key for each tab item
 * Support: Flutter SDK 3.10.x
