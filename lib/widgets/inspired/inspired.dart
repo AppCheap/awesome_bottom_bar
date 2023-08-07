@@ -271,7 +271,11 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
           child: FractionallySizedBox(
             widthFactor: factor,
             alignment: offset,
-            child: buildItem(context, item: widget.items[convexIndex], index: convexIndex, active: active),
+            child: GestureDetector(
+              key: ValueKey(widget.items[convexIndex].key ?? ''),
+              onTap: () => _onTabClick(convexIndex),
+              child: buildItem(context, item: widget.items[convexIndex], index: convexIndex, active: active),
+            ),
           ),
         ),
       ],

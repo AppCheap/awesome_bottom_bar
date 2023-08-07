@@ -85,67 +85,70 @@ class _BottomBarCreativeState extends State<BottomBarCreative> {
 
     isShadow = widget.enableShadow!;
 
-    return BuildLayout(
-      decoration: BoxDecoration(
-        color: widget.backgroundColor,
-        borderRadius: widget.borderRadius,
-        boxShadow: widget.boxShadow ?? shadow,
-      ),
-      blur: widget.blur,
-      clipBehavior: Clip.none,
-      child: widget.items.isNotEmpty
-          ? IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(widget.items.length, (index) {
-                  TabItem item = widget.items[index];
-                  String value = widget.items[index].key ?? '';
-                  if (visit == index) {
-                    Widget highlightWidget = GestureDetector(
-                      key: Key(value),
-                      onTap: index != widget.indexSelected ? () => widget.onTap?.call(visit) : null,
-                      child: buildHighLight(context, item: item, color: widget.colorSelected, size: sizeHighlight),
-                    );
-                    return !widget.isFloating
-                        ? Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Padding(
-                                padding: pad,
-                                child: highlightWidget,
-                              )
-                            ],
-                          )
-                        : Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              SizedBox(width: sizeHighlight),
-                              Positioned(
-                                top: -sizeHighlight / 2,
-                                child: highlightWidget,
-                              )
-                            ],
-                          );
-                  }
-                  return Expanded(
+    EdgeInsetsGeometry padTop = widget.isFloating ? EdgeInsets.only(top: sizeHighlight/2) : EdgeInsets.zero;
+
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Padding(
+            padding: padTop,
+            child: BuildLayout(
+              decoration: BoxDecoration(
+                color: widget.backgroundColor,
+                borderRadius: widget.borderRadius,
+                boxShadow: widget.boxShadow ?? shadow,
+              ),
+            ),
+          ),
+        ),
+        if (widget.items.isNotEmpty)
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(widget.items.length, (index) {
+                TabItem item = widget.items[index];
+                String value = widget.items[index].key ?? '';
+                if (visit == index) {
+                  Widget highlightWidget = GestureDetector(
+                    key: Key(value),
+                    onTap: index != widget.indexSelected ? () => widget.onTap?.call(visit) : null,
+                    child: buildHighLight(context, item: item, color: widget.colorSelected, size: sizeHighlight),
+                  );
+                  return !widget.isFloating
+                      ? Container(
+                          padding: pad,
+                          alignment: Alignment.center,
+                          child: highlightWidget
+                        )
+                      : Column(
+                        children: [
+                          highlightWidget
+                        ],
+                      );
+                }
+                return Expanded(
+                  child: Padding(
+                    padding: padTop,
                     child: InkWell(
                       key: ValueKey(value),
                       onTap: index != widget.indexSelected ? () => widget.onTap?.call(index) : null,
                       child: widget.items.length > index
                           ? buildItem(
-                              context,
-                              item: item,
-                              color: widget.color,
-                              isSelected: index == widget.indexSelected,
-                            )
+                        context,
+                        item: item,
+                        color: widget.color,
+                        isSelected: index == widget.indexSelected,
+                      )
                           : null,
                     ),
-                  );
-                }),
-              ),
-            )
-          : null,
+                  ),
+                );
+              }),
+            ),
+          )
+        else Container(),
+      ],
     );
   }
 
