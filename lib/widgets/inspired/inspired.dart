@@ -14,17 +14,17 @@
  *  limitations under the License.
  */
 
+import 'dart:math' as math;
 
 import 'package:awesome_bottom_bar/count_style.dart';
 import 'package:awesome_bottom_bar/tab_item.dart';
 import 'package:awesome_bottom_bar/widgets/build_icon.dart';
 import 'package:awesome_bottom_bar/widgets/hexagon/hexagon.dart';
+import 'package:flutter/material.dart';
 
 import '../../chip_style.dart';
-import 'package:flutter/material.dart';
-import 'dart:math' as math;
-import 'stack.dart' as extend;
 import 'painter.dart';
+import 'stack.dart' as extend;
 import 'transition_container.dart';
 
 /// Default size of the curve line.
@@ -63,6 +63,7 @@ class Inspired extends StatefulWidget {
   final Duration? duration;
   final String animateStyle;
   final List<TabItem<dynamic>> items;
+
   const Inspired({
     Key? key,
     required this.background,
@@ -132,8 +133,7 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
     _updateAnimation(
       from: from ?? _currentIndex,
       to: index,
-      duration:
-          widget.animated == true ? const Duration(milliseconds: _transitionDuration) : const Duration(microseconds: 0),
+      duration: widget.animated == true ? const Duration(milliseconds: _transitionDuration) : const Duration(microseconds: 0),
     );
     // ignore: unawaited_futures
     _animationController?.forward();
@@ -255,12 +255,8 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
               drawHexagon: drawHexagon,
               notchSmoothness: notchSmoothness,
               convexBridge: convexBridge,
-              leftCornerRadius: widget.fixed && widget.fixedIndex == 0
-                  ? 0
-                  : (widget.initialActive == 0 && !widget.fixed ? 0 : widget.radius!),
-              rightCornerRadius: widget.fixed && widget.fixedIndex == count - 1
-                  ? 0
-                  : (widget.initialActive == count - 1 && !widget.fixed ? 0 : widget.radius!),
+              leftCornerRadius: widget.fixed && widget.fixedIndex == 0 ? 0 : (widget.initialActive == 0 && !widget.fixed ? 0 : widget.radius!),
+              rightCornerRadius: widget.fixed && widget.fixedIndex == count - 1 ? 0 : (widget.initialActive == count - 1 && !widget.fixed ? 0 : widget.radius!),
             ),
           ),
         ),
@@ -292,10 +288,11 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
       }
       var active = _currentIndex == i;
 
-      children.add(Expanded(
-        child: GestureDetector(
+      children.add(
+        Expanded(
+          child: GestureDetector(
             key: ValueKey(value),
-          behavior: HitTestBehavior.opaque,
+            behavior: HitTestBehavior.opaque,
             onTap: () => _onTabClick(i),
             child: buildItem(context, item: widget.items[i], index: i, active: active),
           ),
@@ -322,26 +319,47 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
     }
 
     if (widget.fixed ? widget.fixedIndex == index : active) {
-      if (widget.animated) {
-        if (widget.animateStyle == 'flip') {
-          return TransitionContainer.flip(
-            data: index,
-            duration: widget.duration ?? const Duration(milliseconds: 350),
-            height: 80,
-            curve: widget.curve,
-            bottomChild: buildContentItem(item, itemColor(), widget.iconSize, widget.sizeInside!),
-          );
-        } else {
-          return TransitionContainer.scale(
-            data: index,
-            duration: widget.duration ?? const Duration(milliseconds: 350),
-            curve: widget.curve,
-            child: buildContentItem(item, itemColor(), widget.iconSize, widget.sizeInside!),
-          );
-        }
+      final content = Center(
+        child: Stack(
+          fit: StackFit.passthrough,
+          alignment: Alignment.center,
+          children: [
+            buildContentItem(item, itemColor(), widget.iconSize, widget.sizeInside!),
+            if (item.activeTitle is String && item.activeTitle != '')
+              Transform.translate(
+                offset: const Offset(0, 40),
+                child: Text(
+                  item.activeTitle!,
+                  style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: widget.color),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+          ],
+        ),
+      );
+
+      if (!widget.animated) {
+        return content;
       }
-      return buildContentItem(item, itemColor(), widget.iconSize, widget.sizeInside!);
+
+      if (widget.animateStyle == 'flip') {
+        return TransitionContainer.flip(
+          data: index,
+          duration: widget.duration ?? const Duration(milliseconds: 350),
+          height: 80,
+          curve: widget.curve,
+          bottomChild: content,
+        );
+      } else {
+        return TransitionContainer.scale(
+          data: index,
+          duration: widget.duration ?? const Duration(milliseconds: 350),
+          curve: widget.curve,
+          child: content,
+        );
+      }
     }
+
     return Container(
       padding: EdgeInsets.only(bottom: widget.padbottom!, top: widget.padTop!),
       child: Column(
