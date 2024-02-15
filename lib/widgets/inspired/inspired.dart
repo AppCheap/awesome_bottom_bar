@@ -115,12 +115,16 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
   @override
   void initState() {
     count = widget.items.length;
-    if (widget.cornerRadius != null && widget.cornerRadius! > 0 && !widget.fixed) {
+    if (widget.cornerRadius != null &&
+        widget.cornerRadius! > 0 &&
+        !widget.fixed) {
       throw FlutterError.fromParts(<DiagnosticsNode>[
         ErrorSummary('ConvexAppBar is configured with cornerRadius'),
-        ErrorDescription('Currently the corner only work for fixed style, if you are using '
+        ErrorDescription(
+            'Currently the corner only work for fixed style, if you are using '
             'other styles, the convex shape can be broken on the first and last tab item '),
-        ErrorHint('You should use TabStyle.fixed or TabStyle.fixedCircle to make the'
+        ErrorHint(
+            'You should use TabStyle.fixed or TabStyle.fixedCircle to make the'
             ' background display with topLeft/topRight corner'),
       ]);
     }
@@ -133,7 +137,9 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
     _updateAnimation(
       from: from ?? _currentIndex,
       to: index,
-      duration: widget.animated == true ? const Duration(milliseconds: _transitionDuration) : const Duration(microseconds: 0),
+      duration: widget.animated == true
+          ? const Duration(milliseconds: _transitionDuration)
+          : const Duration(microseconds: 0),
     );
     // ignore: unawaited_futures
     _animationController?.forward();
@@ -152,7 +158,9 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
     if (from != null && (from == to) && _animation != null) {
       return _animation!;
     }
-    from ??= widget.fixed ? widget.fixedIndex : _controller?.index ?? widget.initialActive ?? 0;
+    from ??= widget.fixed
+        ? widget.fixedIndex
+        : _controller?.index ?? widget.initialActive ?? 0;
     to ??= from;
     final lower = (2 * from! + 1) / (2 * count);
     final upper = (2 * to! + 1) / (2 * count);
@@ -203,13 +211,19 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     // take care of iPhoneX' safe area at bottom edge
-    double additionalBottomPadding = math.max(MediaQuery.of(context).padding.bottom, 0.0);
+    double additionalBottomPadding =
+        math.max(MediaQuery.of(context).padding.bottom, 0.0);
 
-    int convexIndex = widget.fixed ? (widget.fixedIndex ?? (count ~/ 2)) : _currentIndex ?? 0;
+    int convexIndex =
+        widget.fixed ? (widget.fixedIndex ?? (count ~/ 2)) : _currentIndex ?? 0;
 
     bool active = widget.fixed ? convexIndex == _currentIndex : true;
 
-    double height = widget.height + additionalBottomPadding + widget.pad! + widget.padTop! + widget.padbottom!;
+    double height = widget.height +
+        additionalBottomPadding +
+        widget.pad! +
+        widget.padTop! +
+        widget.padbottom!;
     double width = MediaQuery.of(context).size.width;
 
     Animation<double> percent = widget.fixed
@@ -230,7 +244,8 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
 
     bool convexBridge = widget.chipStyle?.convexBridge ?? false;
 
-    NotchSmoothness notchSmoothness = widget.chipStyle?.notchSmoothness ?? NotchSmoothness.defaultEdge;
+    NotchSmoothness notchSmoothness =
+        widget.chipStyle?.notchSmoothness ?? NotchSmoothness.defaultEdge;
 
     var offset = FractionalOffset(count > 1 ? dx : 0.0, 0);
 
@@ -247,7 +262,8 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
               width: widget.curveSize ?? converSize,
               height: 78,
               color: widget.background,
-              shadowColor: widget.shadowColor ?? const Color.fromRGBO(0, 0, 0, 0.06),
+              shadowColor:
+                  widget.shadowColor ?? const Color.fromRGBO(0, 0, 0, 0.06),
               sigma: widget.elevation ?? 2,
               leftPercent: percent,
               textDirection: textDirection,
@@ -255,27 +271,46 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
               drawHexagon: drawHexagon,
               notchSmoothness: notchSmoothness,
               convexBridge: convexBridge,
-              leftCornerRadius: widget.fixed && widget.fixedIndex == 0 ? 0 : (widget.initialActive == 0 && !widget.fixed ? 0 : widget.radius!),
-              rightCornerRadius: widget.fixed && widget.fixedIndex == count - 1 ? 0 : (widget.initialActive == count - 1 && !widget.fixed ? 0 : widget.radius!),
+              leftCornerRadius: widget.fixed && widget.fixedIndex == 0
+                  ? 0
+                  : (widget.initialActive == 0 && !widget.fixed
+                      ? 0
+                      : widget.radius!),
+              rightCornerRadius: widget.fixed && widget.fixedIndex == count - 1
+                  ? 0
+                  : (widget.initialActive == count - 1 && !widget.fixed
+                      ? 0
+                      : widget.radius!),
             ),
           ),
         ),
         _barContent(height, additionalBottomPadding, convexIndex),
-        Positioned.fill(
-          top: (widget.top! - widget.pad! - widget.padTop! - widget.padbottom!),
-          bottom: additionalBottomPadding,
-          child: FractionallySizedBox(
-            widthFactor: factor,
-            alignment: offset,
-            child: GestureDetector(
-              key: ValueKey(widget.items[convexIndex].key ?? ''),
-              onTap: () => _onTabClick(convexIndex),
-              child: buildItem(context, item: widget.items[convexIndex], index: convexIndex, active: active),
+        if (isInItemRange(convexIndex))
+          Positioned.fill(
+            top: (widget.top! -
+                widget.pad! -
+                widget.padTop! -
+                widget.padbottom!),
+            bottom: additionalBottomPadding,
+            child: FractionallySizedBox(
+              widthFactor: factor,
+              alignment: offset,
+              child: GestureDetector(
+                key: ValueKey(widget.items[convexIndex].key ?? ''),
+                onTap: () => _onTabClick(convexIndex),
+                child: buildItem(context,
+                    item: widget.items[convexIndex],
+                    index: convexIndex,
+                    active: active),
+              ),
             ),
           ),
-        ),
       ],
     );
+  }
+
+  bool isInItemRange(int index) {
+    return index >= 0 && index < widget.items.length;
   }
 
   Widget _barContent(double height, double paddingBottom, int curveTabIndex) {
@@ -294,7 +329,8 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
             key: ValueKey(value),
             behavior: HitTestBehavior.opaque,
             onTap: () => _onTabClick(i),
-            child: buildItem(context, item: widget.items[i], index: i, active: active),
+            child: buildItem(context,
+                item: widget.items[i], index: i, active: active),
           ),
         ),
       );
@@ -310,7 +346,8 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
     );
   }
 
-  Widget buildItem(BuildContext context, {required TabItem item, required int index, bool active = false}) {
+  Widget buildItem(BuildContext context,
+      {required TabItem item, required int index, bool active = false}) {
     Color itemColor() {
       if (widget.fixed) {
         return active ? widget.chipStyle!.background! : widget.color;
@@ -324,13 +361,18 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
           fit: StackFit.passthrough,
           alignment: Alignment.center,
           children: [
-            buildContentItem(item, itemColor(), widget.iconSize, widget.sizeInside!),
+            buildContentItem(
+                item, itemColor(), widget.iconSize, widget.sizeInside!),
             if (item.activeTitle is String && item.activeTitle != '')
               Transform.translate(
                 offset: const Offset(0, 40),
                 child: Text(
                   item.activeTitle!,
-                  style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: widget.color),
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelSmall
+                      ?.merge(widget.titleStyle)
+                      .copyWith(color: widget.color),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -376,7 +418,11 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
             SizedBox(height: widget.pad),
             Text(
               item.title!,
-              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor()),
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall
+                  ?.merge(widget.titleStyle)
+                  .copyWith(color: itemColor()),
               textAlign: TextAlign.center,
             )
           ],
@@ -385,7 +431,8 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
     );
   }
 
-  Widget buildContentItem(TabItem item, Color itemColor, double iconSize, double sizeInside) {
+  Widget buildContentItem(
+      TabItem item, Color itemColor, double iconSize, double sizeInside) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -394,7 +441,8 @@ class _InspiredState extends State<Inspired> with TickerProviderStateMixin {
           Container(
             width: sizeInside,
             height: sizeInside,
-            decoration: BoxDecoration(color: widget.chipStyle?.background!, shape: BoxShape.circle),
+            decoration: BoxDecoration(
+                color: widget.chipStyle?.background!, shape: BoxShape.circle),
             alignment: Alignment.center,
             child: BuildIcon(
               item: item,
