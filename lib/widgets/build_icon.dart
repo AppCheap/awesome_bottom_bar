@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../tab_item.dart';
 import '../count_style.dart';
+import '../tab_item.dart';
 
 class BuildIcon extends StatelessWidget {
   final TabItem item;
@@ -19,30 +19,35 @@ class BuildIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget icon = Icon(
-      item.icon,
-      size: iconSize,
-      color: iconColor,
-    );
-    if (item.count is Widget) {
-      double sizeBadge = countStyle?.size ?? 18;
-
-      return Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Icon(
-            item.icon,
-            size: iconSize,
-            color: iconColor,
-          ),
-          PositionedDirectional(
-            start: iconSize - sizeBadge / 2,
-            top: -sizeBadge / 2,
-            child: item.count!,
-          ),
-        ],
+    if (item.icon is Widget) {
+      return item.icon;
+    } else {
+      Widget icon = Icon(
+        item.icon,
+        size: iconSize,
+        color: iconColor,
       );
+
+      if (item.count is Widget) {
+        double sizeBadge = countStyle?.size ?? 18;
+
+        return Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Icon(
+              item.icon,
+              size: iconSize,
+              color: iconColor,
+            ),
+            PositionedDirectional(
+              start: iconSize - sizeBadge / 2,
+              top: -sizeBadge / 2,
+              child: item.count!,
+            ),
+          ],
+        );
+      }
+      return icon;
     }
-    return icon;
   }
 }

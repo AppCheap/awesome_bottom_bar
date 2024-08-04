@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 import '../count_style.dart';
 import '../tab_item.dart';
-import 'bottom_bar.dart';
 import '../widgets/build_icon.dart';
+import 'bottom_bar.dart';
 
 enum StyleDivider { top, bottom, all }
 
@@ -26,11 +26,14 @@ class BottomBarDivider extends StatefulWidget {
   final Color color;
   final Color colorSelected;
   final double iconSize;
-  final TextStyle? titleStyle;
+  final TextStyle? selectedTitleStyle;
+  final TextStyle? unselectedTitleStyle;
   final CountStyle? countStyle;
 
   /// enable Divider
   final StyleDivider styleDivider;
+  final double? dividerHeight;
+  final Color? dividerBackgroundColor;
 
   final Duration? duration;
   final Curve? curve;
@@ -52,9 +55,12 @@ class BottomBarDivider extends StatefulWidget {
       required this.color,
       required this.colorSelected,
       this.iconSize = 22,
-      this.titleStyle,
+      this.selectedTitleStyle,
+      this.unselectedTitleStyle,
       this.countStyle,
       this.styleDivider = StyleDivider.top,
+      this.dividerHeight = 4,
+      this.dividerBackgroundColor,
       this.duration,
       this.curve,
       this.animated = true,
@@ -89,7 +95,9 @@ class _BottomBarDividerState extends State<BottomBarDivider> {
       blur: widget.blur,
       child: widget.items.isNotEmpty
           ? Stack(
-              alignment: widget.styleDivider == StyleDivider.bottom ? Alignment.bottomCenter : Alignment.topCenter,
+              alignment: widget.styleDivider == StyleDivider.bottom
+                  ? Alignment.bottomCenter
+                  : Alignment.topCenter,
               children: <Widget>[
                   IntrinsicHeight(
                     child: Row(
@@ -115,10 +123,16 @@ class _BottomBarDividerState extends State<BottomBarDivider> {
                       }),
                     ),
                   ),
+                  Container(
+                    color: widget.dividerBackgroundColor,
+                    height: widget.dividerHeight,
+                    width: width,
+                  ),
                   Positioned(
                     width: width,
                     child: AnimatedAlign(
-                      alignment: Alignment(_getIndicatorPosition(widget.indexSelected), 0),
+                      alignment: Alignment(
+                          _getIndicatorPosition(widget.indexSelected), 0),
                       curve: widget.curve ?? Curves.ease,
                       duration: widget.animated
                           ? widget.duration ?? const Duration(milliseconds: 300)
@@ -126,7 +140,7 @@ class _BottomBarDividerState extends State<BottomBarDivider> {
                       child: Container(
                         color: widget.colorSelected,
                         width: width / widget.items.length,
-                        height: 4,
+                        height: widget.dividerHeight,
                       ),
                     ),
                   ),
@@ -167,7 +181,13 @@ class _BottomBarDividerState extends State<BottomBarDivider> {
             SizedBox(height: widget.pad),
             Text(
               item.title!,
-              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor),
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall
+                  ?.merge(isSelected
+                      ? widget.selectedTitleStyle
+                      : widget.unselectedTitleStyle)
+                  .copyWith(color: itemColor),
               textAlign: TextAlign.center,
             )
           ],
