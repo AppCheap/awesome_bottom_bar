@@ -81,7 +81,7 @@ class _BottomBarCreativeState extends State<BottomBarCreative> {
 
     EdgeInsetsGeometry pad = widget.paddingVertical != null ? const EdgeInsets.symmetric(vertical: 12.0) : padDefault;
 
-    double sizeHighlight = widget.highlightStyle?.sizeLarge == true ? 56 : 48;
+    double sizeHighlight = widget.highlightStyle.customSize ?? widget.highlightStyle?.sizeLarge == true ? 56 : 48;
 
     isShadow = widget.enableShadow!;
 

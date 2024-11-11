@@ -6,6 +6,7 @@ class HighlightStyle {
   final Color? color;
   final bool? isHexagon;
   final double? elevation;
+  final int? customSize;
 
   const HighlightStyle({
     this.sizeLarge = false,
@@ -13,5 +14,6 @@ class HighlightStyle {
     this.background,
     this.color,
     this.elevation,
+    this.customSize,
   });
 }
